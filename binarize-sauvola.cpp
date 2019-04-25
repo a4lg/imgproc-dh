@@ -220,8 +220,8 @@ static void argparse(int argc, char** argv)
 					break;
 				case 'r':
 					rScale = argparse_double("-r", optarg, true);
-					if (rScale < 1)
-						throw argparse_error("-r", "R scale must not be less than 1.");
+					if (rScale <= 0)
+						throw argparse_error("-r", "R scale must be positive.");
 					break;
 				case 't':
 					tScale = argparse_double("-t", optarg);
@@ -238,6 +238,11 @@ static void argparse(int argc, char** argv)
 					throw argparse_error(argv[0], "invalid option.");
 					break;
 			}
+		}
+		if (programMode == OUT_VARIABLE || programMode == OUT_VARIABLE_MULTIW)
+		{
+			if (rScale < 1)
+				throw argparse_error("-r", "R scale must not be less than 1 if variable output is enabled.");
 		}
 		if (programMode == OUT_VARIABLE_MULTIW)
 		{
