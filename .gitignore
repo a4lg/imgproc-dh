@@ -1,0 +1,12 @@
+*~
+\#*
+.*
+!.git?*
+*.exe
+*.o
+*.obj
+*.swp
+/binarize
+/binarize-sauvola
+/isolate-bg
+/mask-op
