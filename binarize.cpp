@@ -34,6 +34,7 @@
 
 */
 
+#define SOFTWARE_NAME       "binarize"
 #define SOFTWARE_VERSION    "0.2.1"
 #define SOFTWARE_COPYRIGHT  "Copyright (C) 2019 Tsukasa OI."
 
@@ -139,7 +140,7 @@ static void argparse(int argc, char** argv)
 					usage(argc, argv, 0);
 					break;
 				case 'v':
-					fprintf(stderr, "binarize version %s\n%s\n", SOFTWARE_VERSION, SOFTWARE_COPYRIGHT);
+					fprintf(stderr, SOFTWARE_NAME " version " SOFTWARE_VERSION "\n" SOFTWARE_COPYRIGHT "\n");
 					exit(0);
 					break;
 				case 'S':
