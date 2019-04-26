@@ -3,7 +3,7 @@
 	My Image Manipulation Tools for Digital Humanities
 	Basic Mask Operation Testbed
 
-	mask.cpp
+	mask-op.cpp
 
 	Copyright (C) 2019 Tsukasa OI.
 
