@@ -34,7 +34,7 @@
 
 */
 
-#define SOFTWARE_VERSION    "0.2.0"
+#define SOFTWARE_VERSION    "0.2.1"
 #define SOFTWARE_COPYRIGHT  "Copyright (C) 2019 Tsukasa OI."
 
 #include <cstdio>
@@ -215,6 +215,30 @@ int main(int argc, char** argv)
 	{
 		fprintf(stderr, "%s: image could not be loaded.\n", filename_in);
 		return 1;
+	}
+	if (preScale != 1.0)
+	{
+		int w = img.cols;
+		int h = img.rows;
+		if (preScale * w + 1 >= numeric_limits<int>::max() || preScale * h + 1 >= numeric_limits<int>::max())
+		{
+			fprintf(stderr, "%s: image is too big after prescaling.\n", filename_in);
+			return 1;
+		}
+		int nw = preScale * w;
+		int nh = preScale * h;
+		if (nw == 0 || nh == 0)
+		{
+			fprintf(stderr, "%s: image is empty after prescaling.\n", filename_in);
+			return 1;
+		}
+		if (numeric_limits<int>::max() / nw < nh) // nw * nh > numeric_limits<int>::max()
+		{
+			fprintf(stderr, "%s: image is too big after prescaling.\n", filename_in);
+			return 1;
+		}
+		if (w != nw || h != nh)
+			resize(img, img, Size(nw, nh), 0, 0, INTER_LANCZOS4);
 	}
 	double realThreshold = constThreshold * 255.0;
 	double realAdaptiveConst = adaptiveConst * 255.0;
