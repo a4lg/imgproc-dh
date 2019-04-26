@@ -416,10 +416,7 @@ int main(int argc, char** argv)
 					th0 += tRealBias; th1 += tRealBias;
 					// th0 <= th1 while rScale >= 1.0.
 					double v = padimg.at<unsigned char>(y + win_n, x + win_n);
-					if (v >= th1)
-						v = th1;
-					if (v <= th0)
-						v = th0;
+					v = max(min(v, th1), th0);
 					dst.at<unsigned char>(y, x) = 255.0 * (v - th0) / (th1 - th0);
 				}
 				else
