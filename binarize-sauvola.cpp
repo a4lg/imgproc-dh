@@ -290,7 +290,7 @@ int main(int argc, char** argv)
 	// Resize image if necessary
 	if (preScale != 1.0)
 	{
-		if (preScale * h + 1 >= numeric_limits<int>::max() || preScale * w + 1 >= numeric_limits<int>::max())
+		if (preScale * w + 1 >= numeric_limits<int>::max() || preScale * h + 1 >= numeric_limits<int>::max())
 		{
 			fprintf(stderr, "%s: image is too big after prescaling.\n", filename_in);
 			return 1;
