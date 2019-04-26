@@ -404,6 +404,13 @@ int main(int argc, char** argv)
 				}
 				if (oVariable)
 				{
+					/*
+						Variable Threshold Image:
+						In Sauvola's algorithm, increasing K makes some black pixels white.
+						The intensity of each pixel in this mode is determined by
+						the lowest K value (Kt) which makes given pixel white.
+						White: Kt == 0, Black: Kt >= 1
+					*/
 					double th1 = tScale * mean;
 					double th0 = th1 * (1 + (stddev / rParam - 1));
 					th0 += tRealBias; th1 += tRealBias;
