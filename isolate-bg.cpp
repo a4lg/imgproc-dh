@@ -37,7 +37,7 @@
 
 */
 
-#define SOFTWARE_VERSION    "0.0.14"
+#define SOFTWARE_VERSION    "0.0.15"
 #define SOFTWARE_COPYRIGHT  "Copyright (C) 2019 Tsukasa OI."
 
 #include <cmath>
@@ -566,13 +566,21 @@ int main(int argc, char** argv)
 			cvtColor(img, tmp2, CV_BGR2GRAY);
 		else
 			tmp2 = img;
-		binarizeUsingSauvola(tmp, tmp2, integralWindowSize, kParam, rScale);
+		if (!binarizeUsingSauvola(tmp, tmp2, integralWindowSize, kParam, rScale))
+		{
+			fprintf(stderr, "%s: image binarization failed.\n", filename_in);
+			return 1;
+		}
 		maskInvert(tmp);
 		maskInset(tmp, maskDenoiseDistance1);
 		maskInvert(tmp);
 		maskInset(tmp, maskDenoiseDistance2);
 		maskInvert(tmp);
-		fastInpaint(img, tmp, bg, inpaintInitMode, inpaintIterations);
+		if (!fastInpaint(img, tmp, bg, inpaintInitMode, inpaintIterations))
+		{
+			fprintf(stderr, "%s: image inpaint failed.\n", filename_in);
+			return 1;
+		}
 	}
 	if (backgroundBlur != 1)
 		GaussianBlur(bg, bg, Size(backgroundBlur, backgroundBlur), 0.0, 0.0, BORDER_REPLICATE);
