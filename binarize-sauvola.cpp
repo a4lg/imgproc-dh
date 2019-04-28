@@ -36,7 +36,7 @@
 */
 
 #define SOFTWARE_NAME       "binarize-sauvola"
-#define SOFTWARE_VERSION    "0.3.2"
+#define SOFTWARE_VERSION    "0.3.3"
 #define SOFTWARE_COPYRIGHT  "Copyright (C) 2019 Tsukasa OI."
 
 #include <cmath>
@@ -280,13 +280,13 @@ int main(int argc, char** argv)
 		fprintf(stderr, "%s: image could not be loaded.\n", filename_in);
 		return 1;
 	}
-	int w = img.cols;
-	int h = img.rows;
-	if (w == 0 || h == 0)
+	if (img.empty())
 	{
 		fprintf(stderr, "%s: image is empty.\n", filename_in);
 		return 1;
 	}
+	int w = img.cols;
+	int h = img.rows;
 
 	// Resize image if necessary
 	if (preScale != 1.0)

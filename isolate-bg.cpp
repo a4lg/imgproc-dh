@@ -38,7 +38,7 @@
 */
 
 #define SOFTWARE_NAME       "isolate-bg"
-#define SOFTWARE_VERSION    "0.0.15"
+#define SOFTWARE_VERSION    "0.0.16"
 #define SOFTWARE_COPYRIGHT  "Copyright (C) 2019 Tsukasa OI."
 
 #include <cmath>
@@ -320,7 +320,7 @@ static bool binarizeUsingSauvola(Mat& dst, const Mat& src, int integralWindowSiz
 	if ((integralWindowSize % 2) != 0)
 		++win_n;
 	if (
-		w == 0 || h == 0 ||
+		src.empty() ||
 		numeric_limits<int>::max() - integralWindowSize < w ||
 		numeric_limits<int>::max() - integralWindowSize < h ||
 		numeric_limits<int>::max() / (w + integralWindowSize) < h + integralWindowSize
@@ -553,6 +553,11 @@ int main(int argc, char** argv)
 	if (!img.data)
 	{
 		fprintf(stderr, "%s: image could not be loaded.\n", filename_in);
+		return 1;
+	}
+	if (img.empty())
+	{
+		fprintf(stderr, "%s: image is empty.\n", filename_in);
 		return 1;
 	}
 	if (inputAsGrayscale)

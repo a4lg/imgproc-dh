@@ -35,7 +35,7 @@
 */
 
 #define SOFTWARE_NAME       "binarize"
-#define SOFTWARE_VERSION    "0.2.1"
+#define SOFTWARE_VERSION    "0.2.2"
 #define SOFTWARE_COPYRIGHT  "Copyright (C) 2019 Tsukasa OI."
 
 #include <cstdio>
@@ -215,6 +215,11 @@ int main(int argc, char** argv)
 	if (!img.data)
 	{
 		fprintf(stderr, "%s: image could not be loaded.\n", filename_in);
+		return 1;
+	}
+	if (img.empty())
+	{
+		fprintf(stderr, "%s: image is empty.\n", filename_in);
 		return 1;
 	}
 	if (preScale != 1.0)
