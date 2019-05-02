@@ -52,6 +52,26 @@ int argparse_int(const char* opt, const char* arg)
 	}
 }
 
+unsigned long argparse_ulong(const char* opt, const char* arg)
+{
+	try
+	{
+		size_t sz;
+		unsigned long value = std::stoul(arg, &sz);
+		if (arg[sz])
+			throw std::invalid_argument("");
+		return value;
+	}
+	catch (const std::invalid_argument&)
+	{
+		throw argparse_error(opt, "invalid argument.");
+	}
+	catch (const std::out_of_range&)
+	{
+		throw argparse_error(opt, "value out of range.");
+	}
+}
+
 double argparse_double(const char* opt, const char* arg, bool allow_infinity, bool allow_nan)
 {
 	try

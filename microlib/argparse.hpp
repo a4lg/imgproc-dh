@@ -37,6 +37,7 @@ public:
 };
 
 int argparse_int(const char* opt, const char* arg);
+unsigned long argparse_ulong(const char* opt, const char* arg);
 double argparse_double(const char* opt, const char* arg, bool allow_infinity = false, bool allow_nan = false);
 
 #endif
