@@ -154,6 +154,12 @@ static void argparse(int argc, char** argv)
 					switch (realopt)
 					{
 						case 'i':
+							if (width > 0 && width < 1)
+							{
+								fprintf(stderr,
+									"warning: L2 inset with width (%f) can cause errors due to an OpenCV bug.\n",
+									width);
+							}
 							commands.push_back( { MASK_CMD_INSET_L2, width } );
 							break;
 						case 'I':
@@ -238,10 +244,13 @@ int main(int argc, char** argv)
 				}
 				break;
 			case MASK_CMD_INSET_L2:
-				distanceTransform(img, tmp, CV_DIST_L2, CV_DIST_MASK_PRECISE);
-				for (int y = 0; y < h; y++)
-					for (int x = 0; x < w; x++)
-						img.at<unsigned char>(y, x) = (tmp.at<float>(y, x) <= cmd.dist) ? 0 : 255;
+				if (cmd.dist > 0)
+				{
+					distanceTransform(img, tmp, CV_DIST_L2, CV_DIST_MASK_PRECISE);
+					for (int y = 0; y < h; y++)
+						for (int x = 0; x < w; x++)
+							img.at<unsigned char>(y, x) = (tmp.at<float>(y, x) <= cmd.dist) ? 0 : 255;
+				}
 				break;
 			case MASK_CMD_INSET_L1:
 				distanceTransform(img, tmp, CV_DIST_L1, CV_DIST_MASK_PRECISE);

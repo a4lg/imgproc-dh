@@ -228,6 +228,8 @@ static void argparse(int argc, char** argv)
 					maskDenoiseDistance1 = argparse_double("-j", optarg);
 					if (maskDenoiseDistance1 < 0)
 						throw argparse_error("-j", "denoise distance must not be negative.");
+					if (maskDenoiseDistance1 > 0 && maskDenoiseDistance1 < 1)
+						fprintf(stderr, "warning: -j with width (%s) can cause errors due to an OpenCV bug.\n", optarg);
 					break;
 				case 'J':
 					maskDenoiseDistance2 = argparse_double("-J", optarg);
@@ -301,6 +303,8 @@ static void maskInvert(Mat& img)
 
 static void maskInset(Mat& img, double width)
 {
+	if (width == 0.0)
+		return;
 	Mat tmp;
 	int w = img.cols;
 	int h = img.rows;
